@@ -19,6 +19,6 @@ jobs:
         uses: actions/github-script@v6.0.0
 
         with: 
-          github-token: ${{secrets.token}} 
+          AUDIT_LOG_TOKEN: ${{secrets.AUDIT_LOG_TOKEN}} 
           script: |
             console.log{github.rest.repos.get.endpoints.DEFAULTS}
