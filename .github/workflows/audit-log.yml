@@ -20,5 +20,5 @@ jobs:
             }).then((res)=>{
               console.log("${res.data.length} logs found")
             }).catch((err)=>{
-              core.setFailed("Action failed with error ${err}")
+              console.log("Action failed with error ${err}")
             })
