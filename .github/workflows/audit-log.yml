@@ -18,7 +18,7 @@ jobs:
               org: context.payload.organization.login,
               query: 'action:repo.rename'
             }).then((res)=>{
-              console.log("${res.data.length} logs found")
+              console.log("${{res.data.length}} logs found")
             }).catch((err)=>{
-              core.setFailed("Action failed with error ${err}")
+              core.setFailed("Action failed with error ${{err}}")
             })
