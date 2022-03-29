@@ -2,20 +2,14 @@ name: Audit
 
 on:
   workflow_dispatch: 
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   audit:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: GitHub Script
         uses: actions/github-script@v6.0.0
 
         with: 
-          AUDIT_LOG_TOKEN: $ {{secrets.AUDIT_LOG_TOKEN}} 
           script: |
             console.log{github.rest.repos.get.endpoints.DEFAULTS}
