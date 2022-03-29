@@ -7,9 +7,9 @@ jobs:
   Audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/github-script@v6.0.0
+      - uses: actions/github-script@v6.0.0
         with:
-          github-token: ${{secrets.token}}
+       
           script: |
 
             await github.request("GET https://api.github.com/orgs/maha4621/audit-log?phrase=action:repo.rename action:org.add_member",{
