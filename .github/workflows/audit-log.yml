@@ -12,4 +12,4 @@ jobs:
 
         with: 
           script: |
-            console.log{github.rest.repos.get.endpoints.DEFAULTS}
+            console.log(github.rest.repos.get.endpoints.DEFAULTS)
