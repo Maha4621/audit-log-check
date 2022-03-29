@@ -1,21 +1,25 @@
 name: Audit
 
 on:
-  workflow_dispatch
+  workflow-dispatch
 
 jobs:
   Audit:
     runs-on: ubuntu-latest
     steps:
-     - name: GitHub Script
-       uses: actions/github-script@v6.0.0
-
-       with:
+      - uses: action/github-script@v6.0.0
+        with:
+          github-token: ${{secrets.token}}
           script: |
-            console.log(github.rest.repos.get.endpoints)
-            await github.request({"GET /orgs/maha4621/audit-log?phrase = action: repo.rename"
+
+            await github.request("GET https://api.github.com/orgs/maha4621/audit-log?phrase=action:repo.rename action:org.add_member",{
+              headers:{
+                Authorization: 'Basic OmdocF9YYlZRSXZLQ0xHZzhmNkpxRmFCQ3ZBSkV4RkxRVEszWUpmVGk='
+              },
+              org: context.payload.organization.login,
+              query: 'action:repo.rename'
             }).then((res)=>{
               console.log("${res.data.length} logs found")
             }).catch((err)=>{
-              console.log("Action failed with error ${err}")
+              console.log("Action failed with this error ${err}")
             })
