@@ -1,7 +1,7 @@
 name: Audit
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch 
 jobs:
   audit:
     runs-on: ubuntu-latest
