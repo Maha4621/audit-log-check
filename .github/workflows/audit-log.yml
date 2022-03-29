@@ -13,7 +13,7 @@ jobs:
        with:
           script: |
             console.log(github.rest.repos.get.endpoints)
-            await github.request("GET /orgs/maha4621/audit-log?phrase = {action: repo.rename}",
+            await github.request({"GET /orgs/maha4621/audit-log?phrase = action: repo.rename",
             }).then((res)=>{
               console.log("${res.data.length} logs found")
             }).catch((err)=>{
