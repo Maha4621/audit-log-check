@@ -9,13 +9,12 @@ jobs:
     steps:
       - uses: actions/github-script@v6.0.0
         with:
-          github-token: OmdocF9YYlZRSXZLQ0xHZzhmNkpxRmFCQ3ZBSkV4RkxRVEszWUpmVGk=
+          github-token: 
           script: |
 
-            await github.request("GET https://api.github.com/orgs/maha4621/audit-log?phrase=action:repo.rename action:org.add_member",{
-              
-            }).then((res)=>{
-              console.log("${res} logs found")
-            }).catch((err)=>{
-              console.log("Action failed with this error ${err}")
-            })
+            let auditLog = await github.request("GET /orgs/maha4621/audit-log?phrase= {query}",
+            {
+            org: context.payload.organisation.login,
+            query: 'action:repo.rename action:org.add_member'
+            });
+            console.log(auditLog);
