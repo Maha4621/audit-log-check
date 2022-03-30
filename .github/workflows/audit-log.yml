@@ -7,14 +7,15 @@ jobs:
   Audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6.0.0
+      - name: githubscript
+        uses: actions/github-script@v6.0.0
         with:
           github-token: $ {{secrets.AUDIT_LOG_TOKEN  }}        
           script: |
 
             let auditLog = await github.request("GET /orgs/maha4621/audit-log?phrase= {query}",
             {
-            org: context.payload.organisation.login,
+            org:  context.payload.organisation.login,
             query: 'action:repo.rename action:org.add_member'
             });
             console.log(auditLog);
