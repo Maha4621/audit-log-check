@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6.0.0
         with:
-          github-token: 
+          github-token: $ {{secrets.AUDIT_LOG_TOKEN  }}        
           script: |
 
             let auditLog = await github.request("GET /orgs/maha4621/audit-log?phrase= {query}",
