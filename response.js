@@ -49,4 +49,3 @@ teamList.forEach((teamItem) => {
 })
 console.log("Final JSON")
 console.log(finalJson);
-console.log("Final JSON")
