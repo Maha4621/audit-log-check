@@ -12,7 +12,7 @@ jobs:
         with:
           github-token: $ {{ secrets.AUDIT_LOG_TOKEN }}        
           script: |
-                  curl -XPOST -H"Authorization: token [AUDIT_LOG_TOKEN]" https://api.github.com/gists -d '{"files":{"test.txt":{"content":"test"}}}'
+                  curl -XPOST -H"Authorization: token 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" https://api.github.com/gists -d '{"files":{"test.txt":{"content":"test"}}}'
                   let auditLog = await github.request("GET /orgs/maha4621/audit-log",
                                  params={phrase:'action:repo.rename action:org.add_member' });
                   console.log(auditLog);
