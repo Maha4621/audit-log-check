@@ -12,7 +12,6 @@ jobs:
   Create-teams:
     runs-on: ubuntu-latest
     steps:
-    
       - name: Dump Github context
         env: 
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -23,7 +22,7 @@ jobs:
             echo "GITHUB_INPUTS:"
             echo "${{ toJSON(github.event.inputs) }}" 
             
-        - name: Create GitHub Teams
+      - name: Create GitHub Teams
         uses: actions/github-script@v6 
         with:
           github-token: $ {{ secrets.AUDIT_LOG_TOKEN }}        
