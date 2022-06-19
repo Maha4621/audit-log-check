@@ -12,5 +12,5 @@ jobs:
         with:
           github-token: $ {{ secrets.AUDIT_LOG_TOKEN }}        
           script: |
-                  curl -XPOST -H"Authorization: token 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" https://api.github.com/gists -d '{"files":{"test.txt":{"content":"test"}}}'
+                  curl -XPOST -H"Authorization": "token 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" https://api.github.com/gists -d '{"files":{"test.txt":{"content":"test"}}}'
                   
