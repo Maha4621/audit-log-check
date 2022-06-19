@@ -1,0 +1,122 @@
+name: Create teams
+
+on:
+  workflow_dispatch:
+    inputs: 
+      teams:
+       description: 'Provide team Name'
+       required: true
+       type: string
+        
+jobs:
+  Create-teams:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump Github context
+        env: 
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          GITHUB_INPUTS: ${{ toJson(inputs) }}
+        run: |
+            echo "GITHUB_CONTEXT:"
+            echo "GITHUB_CONTEXT"
+            echo "GITHUB_INPUTS:"
+            echo "${{ toJSON(github.event.inputs) }}" 
+            
+      - name: Create GitHub Teams
+        uses: actions/github-script@v6 
+        with:
+          github-token: $ {{ secrets.AUDIT_LOG_TOKEN }}        
+          script: |
+                // Set var for this step
+                let teamAccessOptions = ["admin", "maintain", "write" ,"triage", "read"]
+                let teamName = {{ github.event.inputs.teams }}
+                let teams = teamName.trim().split(",").filter(e => e.trim())
+                async function teamExists(teamSlug) {
+                var exists = false
+                await github.rest.teams.getByName({
+                    org: context.payload.organization.login,
+                    team_slug: teamsSlug
+                }).then((res) => {
+                  console.log(`Team [${teamSlug}] exists`)
+                  exists = true 
+                }).catch((err) => {
+                      core.startGroup('Team: ${teamSlug}] does not exists`)
+                      console.log(err)
+                      core.endGroup()
+                })
+                return exists
+                }
+              
+                function teamSlugs(team) {
+                var teamSlug = team.trim()
+                if (teamAcessOptions.some(e => teamSlug.endWith(e)) {
+                  return teamSlug
+                } else {
+                  return teamAcessOptions.map(e =>teamSlug + '-' + e)
+                }
+                }
+                //Format Standardised team Slugs 
+                const slugs = teams.flatMap(e => teamSlugs(e))
+                console.log(`Validating formated team slugs: [$(slugs}]') 
+              
+                //EACH TEAM EXISTS
+                var existingTeams = await Promise.all(slugs.map(e => teamExists(e)))
+                if (!existingTeams.every(e => e)){
+                core.notice(`Not all teams entered exists`)
+                //Set var for this step
+                let teamArray = ${{ join(github.event.inputs.teams,',') }}.split(',')
+                //print vars to log 
+                console.log("Teams: " + JSON.stringfy(teamArray))
+                console.log("Creating Parent Team")
+                await github.rest.teams.create({
+                  org: context.payload.organization.login,
+                  name: teamName,
+                  privacy: "closed",
+                }).then(res) => {
+                 core.startGroup(Sucess: Create [$teams}] team`)
+                 console.log(res)
+                 core.endGroup()
+                }).catch(err) => {
+                  core.setFailed(`Failed to create [${teams}] team.Output: ${err}')
+                })
+
+                let teamList = await github.paginate(github.rest.teams.list,
+                               {org: context.payload.organization.login},
+                               (resp) => resp.data.map((teamItem) => ({
+                                  "name": teamItem.name,
+                                  "id": teamItem.id,
+                                  }))
+                               )
+                  let id = teamList.filter(function(item){
+                      return item.name == teamName;
+                   });
+                   let parent_id = id[0].id; 
+
+                console.log("Creating Child Team")
+                for (const team of slugs) {
+                  await github.rest.teams.create({
+                    org: context.payload.organization.login,
+                    name: teamName,
+                    privacy: "closed",
+                    parent_team_id: parent_id
+                }).then(res) => {
+                  core.startGroup(Sucess: Create [$teams}] team`)
+                  console.log(res)
+                  core.endGroup()
+                }).catch(err) => {
+                    core.setFailed(`Failed to create [${teams}] team.Output: ${err}')
+                  })
+                }
+                } else {
+                core.notice("Verified: All teams entered exists")
+                }
+
+
+
+
+
+
+              
+              
+               
+                  
