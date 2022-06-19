@@ -1,10 +1,10 @@
-name: Audit
+name: Auditlog-check
 
 on:
   workflow_dispatch
 
 jobs:
-  Audit:
+  Audit-check:
     runs-on: ubuntu-latest
     steps:
       - name: githubscript
@@ -12,7 +12,6 @@ jobs:
         with:
           github-token: $ {{ secrets.AUDIT_LOG_TOKEN }}        
           script: |
-
-            let auditLog = await github.request("GET /orgs/maha4621/audit-log",
-                            params={phrase:'action:repo.rename action:org.add_member' });
-            console.log(auditLog);
+                  let auditLog = await github.request("GET /orgs/maha4621/audit-log",
+                                 params={phrase:'action:repo.rename action:org.add_member' });
+                  console.log(auditLog);
