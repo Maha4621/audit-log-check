@@ -13,6 +13,6 @@ jobs:
           github-token: $ {{ secrets.Accesstoken  }}        
           script: |
 
-            let auditLog = await github.request("GET /orgs/maha4621/audit-log?phrase= {query}",
-            { query: 'action:repo.rename action:org.add_member' });
+            let auditLog = await github.request("GET /orgs/maha4621/audit-log",
+                            params={phrase:'action:repo.rename action:org.add_member' });
             console.log(auditLog);
