@@ -10,11 +10,9 @@ jobs:
       - name: githubscript
         uses: actions/github-script@v6.0.0
         with:
-          github-token: $ {{secrets.Accesstoken  }}        
+          github-token: $ {{ secrets.Accesstoken  }}        
           script: |
 
             let auditLog = await github.request("GET /orgs/maha4621/audit-log?phrase= {query}",
-            {org:  context.payload.organisation.login,
-            query: 'action:repo.rename action:org.add_member'
-            });
+            { query: 'action:repo.rename action:org.add_member' });
             console.log(auditLog);
