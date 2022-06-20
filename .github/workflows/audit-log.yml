@@ -14,3 +14,18 @@ jobs:
           script: |
                   curl -XPOST -H"Authorization": "token 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" https://api.github.com/gists -d '{"files":{"test.txt":{"content":"test"}}}'
                   
+script: |
+              let idpResp = await github.request(`GET /orgs/AdityaVarmaGottumukkala/teams/JusticeLeague/members`)
+              console.log(idpResp.data);
+              var loginData = idpResp.data
+              console.log(loginData);
+              for (let i = 0, l = loginData.length; i < l; i++) {
+                 console.log(loginData[i].login);
+                 removeMember = await github.request(`DELETE /orgs/AdityaVarmaGottumukkala/teams/JusticeLeague/memberships/${loginData[i].login}`)
+                 console.log(removeMember.status)
+                 if (removeMember.status !== 204) {
+                    console.log("Issue while removing the members from team");
+                 } else {
+                 console.log("member '+loginData[i].login+' removed");
+                 }
+              }
