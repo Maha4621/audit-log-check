@@ -1,4 +1,4 @@
-name: Create teams
+name: Create-GitHub-Teams
 
 on:
   workflow_dispatch:
