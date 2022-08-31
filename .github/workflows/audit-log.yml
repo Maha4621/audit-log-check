@@ -29,3 +29,54 @@ script: |
                  console.log("member '+loginData[i].login+' removed");
                  }
               }
+              
+            -----------
+            
+            
+            name: topic
+
+on:
+  workflow_dispatch
+
+jobs:
+  topic-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: validate teams
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.token_github }}
+          script: |
+              await github.rest.repos.getAllTopics({
+                owner: "",
+                repo: "",
+              }).then((res) => {
+                core.startGroup(`listed`)
+                console.log(res.data)
+                var jsonObject = res.data.names;
+                var keyCount  = Object.keys(jsonObject).length;
+                console.log(keyCount)
+                if (keyCount < 2) {
+                  github.rest.repos.replaceAllTopics({
+                    owner: "",
+                    repo: "",
+                    names: ["replacetopic"],
+                  });
+                } else {
+                  console.log(res.data.names)
+                  var topic = res.data.names;
+                  console.log(topic);
+                  topic = topic.map(function(item) { return item == "test8" ? "replacetopic" : item; });
+                  console.log(topic);
+                  github.rest.repos.replaceAllTopics({
+                    owner: "",
+                    repo: "",
+                    names: topic,
+                  });
+                }
+                core.endGroup()
+              }).catch((err) => {
+                core.startGroup(` not listed`)
+                console.log(err)
+                core.endGroup()
+              })
